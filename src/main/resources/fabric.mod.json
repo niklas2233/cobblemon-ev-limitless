@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "cobblemon-ev-uncapped",
+  "version": "${version}",
+  "name": "Cobblemon EV Uncapped",
+  "description": "Removes Cobblemon's 510 total EV cap (per-stat 252 cap unchanged, max total becomes 1512). Server-required; client-optional - installing it too lets a player see real EV totals instead of a clamped display.",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.evuncapped.EvUncappedMod"],
+    "client": ["com.evuncapped.EvUncappedClientMod"]
+  },
+  "mixins": [
+    "cobblemon-ev-uncapped.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "1.21.1",
+    "fabric-api": "*",
+    "cobblemon": "*"
+  }
+}

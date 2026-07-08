@@ -1,0 +1,47 @@
+plugins {
+    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+    maven { url = "https://maven.fabricmc.net/" }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content { includeGroup "maven.modrinth" }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    // Compile-time only: Cobblemon (and its Kotlin runtime) are provided by the server this addon is dropped into.
+    // Local jar, not Modrinth's maven coordinate: maven.modrinth:cobblemon:1.7.3 resolves to a
+    // NeoForge-flavored build (no com.cobblemon.mod.fabric package) despite the coordinate implying Fabric.
+    modCompileOnly files("libs/Cobblemon-fabric-1.7.3+1.21.1.jar")
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
